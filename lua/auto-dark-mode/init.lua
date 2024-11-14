@@ -40,9 +40,7 @@ local function parse_query_response(res)
 	elseif system == "Darwin" then
 		return res[1] == "Dark"
 	elseif system == "Windows_NT" or system == "WSL" then
-		-- AppsUseLightTheme REG_DWORD 0x0 : dark
-		-- AppsUseLightTheme REG_DWORD 0x1 : light
-		return string.match(res[3], "0x1") == nil
+		return vim.fn.trim(res[1]) == "0"
 	end
 	return false
 end
@@ -108,10 +106,11 @@ local function init()
 	elseif system == "Windows_NT" or system == "WSL" then
 		-- Don't swap the quotes; it breaks the code
 		query_command = {
-			"reg.exe",
-			"Query",
-			"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
-			"/v",
+			"powershell.exe",
+			"get-ItemPropertyValue",
+			"-Path",
+			"\"HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize\"",
+			"-Name",
 			"AppsUseLightTheme",
 		}
 	else
