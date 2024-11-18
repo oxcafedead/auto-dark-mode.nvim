@@ -109,7 +109,7 @@ local function init()
 			"powershell.exe",
 			"get-ItemPropertyValue",
 			"-Path",
-			"\"HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize\"",
+			"HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
 			"-Name",
 			"AppsUseLightTheme",
 		}
